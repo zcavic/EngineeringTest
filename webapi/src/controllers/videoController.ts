@@ -16,24 +16,35 @@ class VideoController implements Controller {
     this.initializeRoutes();
   }
 
-  public initializeRoutes() {
+  public initializeRoutes(): void {
     this.router.get('/files', this.getAllVideos);
     this.router.get('/files/:fileId/status', this.getStatus);
     this.router.post('/start', this.uploadVideo);
   }
 
-  getAllVideos = (request: express.Request, response: express.Response) => {
+  getAllVideos = (
+    request: express.Request,
+    response: express.Response
+  ): void => {
     response.send(this.video);
   };
 
-  getStatus = (request: express.Request, response: express.Response) => {
+  getStatus = (request: express.Request, response: express.Response): void => {
     response.send(this.video);
   };
 
-  uploadVideo = (request: express.Request, response: express.Response) => {
-    const video: IVideo = request.body;
+  uploadVideo = async (
+    request: express.Request,
+    response: express.Response,
+    next: express.NextFunction
+  ): Promise<void> => {
+    console.log('Try to upload video.');
+    const video: IVideo = { title: 'Pulp Fiction', status: 'Uploaded' };
     this.video.push(video);
+    console.log('Video is uploaded. Try to update response.');
     response.send(video);
+    console.log('Response updated. Try to call next middleware.');
+    next();
   };
 }
 

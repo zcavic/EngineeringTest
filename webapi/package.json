@@ -4,9 +4,12 @@
   "description": "",
   "main": "dist/server.js",
   "dependencies": {
+    "amqp-connection-manager": "^3.7.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mongoose": "^6.0.12"
+    "mongoose": "^6.0.12",
+    "typescript-rabbitmq": "0.0.8",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
