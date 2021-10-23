@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  webapi:
+    build:
+      context: ./webapi
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./webapi:/usr/src/app
+    ports:
+      - '5000:5000'
+    networks:
+      - app-network
+    environment:
+      - MESSAGE_QUEUE=amqp://rabbitmq
+    links:
+      - rabbitmq
+      - mongo
+    command: npm run dev
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
+    networks:
+      - app-network
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    ports:
+      - '5672:5672'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
