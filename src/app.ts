@@ -1,11 +1,44 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application } from 'express';
+import bodyParser from 'body-parser';
+import { Controller } from './controllers/controller.interface';
 
-const app: express.Application = express();
+class App {
+  public app: Application;
+  public port: number;
 
-const add = (a: number, b: number): number => a + b;
+  constructor(controllers: Controller[], port: number) {
+    this.app = express();
+    this.port = port;
 
-app.get('/', (req: Request, res: Response, next: NextFunction) => {
-    res.send('This is message from server.')
-});
+    this.app.set('views', './src/views');
+    this.app.set('view engine', 'ejs');
 
-app.listen(3001, () => console.log('Server is running.'))
+    this.initializeMiddleware();
+    this.initializeHomepage();
+    this.initializeControllers(controllers);
+  }
+
+  private initializeMiddleware() {
+    this.app.use(bodyParser.json());
+  }
+
+  private initializeControllers(controllers: Controller[]) {
+    controllers.forEach((controller) => {
+      this.app.use('/', controller.router);
+    });
+  }
+
+  private initializeHomepage() {
+    this.app.get('/', (req, res) => {
+      res.render('index');
+    });
+  }
+
+  public listen() {
+    this.app.listen(this.port, () => {
+      console.log(`App listening on the port ${this.port}`);
+    });
+  }
+}
+
+export default App;
