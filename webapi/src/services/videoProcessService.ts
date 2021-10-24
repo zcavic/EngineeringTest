@@ -1,5 +1,5 @@
 import * as Amqp from 'amqp-ts';
-import { UploadedFileData, FileData } from '../model/video';
+import { UploadedFileData, FileData } from '../model/FileData';
 import { collections } from '../repository/FileDatabase';
 import { ObjectId } from 'mongodb';
 

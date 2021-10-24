@@ -8,6 +8,7 @@
     "originalname",
     "rabbitmq",
     "tsbuildinfo",
+    "upserted",
     "uuidv"
   ]
 }

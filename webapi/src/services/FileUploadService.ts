@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import fs from 'fs';
-import { FileData, UploadedFileData } from '../model/video';
+import { FileData, UploadedFileData } from '../model/FileData';
 import { collections } from '../repository/FileDatabase';
 
 class FileUploadService {
