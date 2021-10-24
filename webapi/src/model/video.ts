@@ -4,7 +4,7 @@ export interface IVideo {
 }
 
 export interface FileData {
-  fileName: string;
+  originalName: string;
   uniqueFileName: string;
   fileSize: number;
   fileExtension: string;

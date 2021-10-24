@@ -12,7 +12,7 @@ export class FileRepo implements IFileRepo {
 
   constructor(uri: string) {
     this.schema = new Schema<FileData>({
-      fileName: { type: String, required: true },
+      originalName: { type: String, required: true },
       uniqueFileName: { type: String, required: true },
       fileSize: { type: Number, required: true },
       fileExtension: { type: String, required: true },
@@ -25,7 +25,7 @@ export class FileRepo implements IFileRepo {
   public async saveFileData(fileData: FileData): Promise<void> {
     await connect(this.uri);
     const doc = new this.model({
-      fileName: fileData.fileName,
+      originalName: fileData.originalName,
       uniqueFileName: fileData.uniqueFileName,
       fileSize: fileData.fileSize,
       fileExtension: fileData.fileExtension,

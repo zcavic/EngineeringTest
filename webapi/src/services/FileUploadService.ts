@@ -1,23 +1,34 @@
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import fs from 'fs';
-import { IFileRepo } from '../repository/FileStatusRepo';
 import { FileData } from '../model/video';
+import { collections } from '../repository/FileDatabase';
 
 class FileUploadService {
   private file: Express.Multer.File;
-  private fileRepo: IFileRepo;
 
-  constructor(fileRepo: IFileRepo, file: Express.Multer.File) {
-    this.fileRepo = fileRepo;
+  constructor(file?: Express.Multer.File) {
+    if (!file) throw new Error('File is undefined.');
     this.file = file;
   }
 
-  async createFileUpload(processingStatus: string): Promise<void> {
+  async createFileUpload(): Promise<FileData> {
     const uniqueFileName = this.createUniqueFileName();
-    await this.createFileRecord(processingStatus, uniqueFileName);
-
     this.writeToFileStream(uniqueFileName);
+
+    const newFile: FileData = {
+      originalName: this.file.originalname,
+      uniqueFileName,
+      fileSize: this.file.size,
+      fileExtension: this.getFileExtension(),
+      processingStatus: 'Uploaded',
+    };
+
+    const result = await collections.fileData?.insertOne(newFile);
+
+    if (!result) throw new Error('Failed to upload database.');
+
+    return newFile;
   }
 
   private getFileExtension(): string {
@@ -27,20 +38,6 @@ class FileUploadService {
   private createUniqueFileName(): string {
     const timeStamp = new Date().toISOString().replace(/[-:.TZ]/g, '');
     return `${uuidv4()}_${timeStamp}${this.getFileExtension()}`;
-  }
-
-  private async createFileRecord(
-    processingStatus: string,
-    uniqueFileName: string
-  ): Promise<void> {
-    const fileData: FileData = {
-      fileName: this.file.originalname,
-      uniqueFileName,
-      fileSize: this.file.size,
-      fileExtension: this.getFileExtension(),
-      processingStatus,
-    };
-    await this.fileRepo.saveFileData(fileData);
   }
 
   private writeToFileStream(uniqueFileName: string) {

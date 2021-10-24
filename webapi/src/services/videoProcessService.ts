@@ -1,5 +1,5 @@
 import * as Amqp from 'amqp-ts';
-import { IVideo } from '../model/video';
+import { FileData } from '../model/video';
 
 export class VideoProcessService {
   private connection: Amqp.Connection;
@@ -53,8 +53,8 @@ export class VideoProcessService {
     message.ack();
   }
 
-  processVideo(vide: IVideo): void {
-    const message = new Amqp.Message(JSON.stringify(vide));
+  processVideo(fileData: FileData): void {
+    const message = new Amqp.Message(JSON.stringify(fileData));
     const exchange = this.connection.declareExchange('ScanService');
     exchange.send(message);
     console.log('WebApi sent message ' + message.getContent());

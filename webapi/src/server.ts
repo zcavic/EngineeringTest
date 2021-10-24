@@ -6,6 +6,10 @@ import {
   FileSizeValidator,
   FileTypeValidator,
 } from './validators/fileValidator';
+import { connectToDatabase } from './repository/FileDatabase';
+
+//connect to database
+connectToDatabase();
 
 // VideoProcessService
 //const amqpUrl = 'amqp://rabbitmq';
@@ -16,12 +20,9 @@ const videoController = new VideoProcessingController(videoProcessService);
 // VideoUploadController
 const fileSizeValidator = new FileSizeValidator(20971520); // 20MB
 const fileTypeValidator = new FileTypeValidator(new Array('mp4'));
-const fileUploadController = new VideoUploadController(
-  fileSizeValidator,
-  fileTypeValidator
-);
+const fileUploadController = new VideoUploadController();
 
-const controllers = [videoController, fileUploadController];
+const controllers = [fileUploadController, videoController];
 
 const app = new App(controllers, 5000);
 app.listen();

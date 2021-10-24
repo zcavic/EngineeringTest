@@ -4,7 +4,10 @@
     "camelcase",
     "chakra",
     "codepaths",
+    "engineeringtest",
+    "originalname",
     "rabbitmq",
-    "tsbuildinfo"
+    "tsbuildinfo",
+    "uuidv"
   ]
 }
