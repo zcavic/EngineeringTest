@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["camelcase", "codepaths", "rabbitmq", "tsbuildinfo"]
+  "cSpell.words": [
+    "browserslist",
+    "camelcase",
+    "chakra",
+    "codepaths",
+    "rabbitmq",
+    "tsbuildinfo"
+  ]
 }

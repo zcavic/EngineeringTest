@@ -1,9 +1,10 @@
 import express from 'express';
+import { Router } from 'express-serve-static-core';
 import { IVideo } from '../model/video';
-import { Controller } from './controller.interface';
+import { IController } from './IController';
 import { VideoProcessService } from '../services/videoProcessService';
 
-export class VideoController implements Controller {
+export class VideoProcessingController implements IController {
   public router = express.Router();
   private videoProcessService: VideoProcessService;
 
@@ -15,14 +16,13 @@ export class VideoController implements Controller {
   ];
 
   constructor(videoProcessService: VideoProcessService) {
-    this.initializeRoutes();
     this.videoProcessService = videoProcessService;
   }
 
-  public initializeRoutes(): void {
-    this.router.get('/files', this.getAllVideos);
-    this.router.get('/files/:fileId/status', this.getStatus);
-    this.router.post('/start', this.uploadVideo);
+  initializeRoutes(router: Router): void {
+    router.get('/files', this.getAllVideos);
+    router.get('/files/:fileId/status', this.getStatus);
+    router.post('/start', this.processVideo);
   }
 
   getAllVideos = (
@@ -36,17 +36,13 @@ export class VideoController implements Controller {
     response.send(this.video);
   };
 
-  uploadVideo = (
+  processVideo = (
     request: express.Request,
     response: express.Response,
     next: express.NextFunction
   ): void => {
     console.log('Try to upload video.');
     const video: IVideo = { title: 'Pulp Fiction', status: 'Uploaded' };
-    this.video.push(video);
-    console.log('Video is uploaded. Try to update response.');
-    response.send(video);
-    console.log('Response updated. Try to call next middleware.');
     this.videoProcessService.processVideo(video);
     next();
   };

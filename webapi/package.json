@@ -6,9 +6,12 @@
   "dependencies": {
     "amqp-connection-manager": "^3.7.0",
     "amqp-ts": "^1.8.0",
+    "cors": "^2.8.5",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
+    "multer": "^1.4.3",
+    "path": "^0.12.7",
     "typescript-rabbitmq": "^0.0.8",
     "uuid": "^8.3.2"
   },

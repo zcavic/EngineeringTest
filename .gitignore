@@ -1,4 +1,26 @@
-webapi/node_modules/
-webapi/dist/
-worker/node_modules/
-worker/dist/
+# dependencies
+webapi/node_modules
+worker/node_modules
+client/node_modules
+node_modules
+
+# testing
+webapi/coverage
+worker/coverage
+client/coverage
+
+# production
+webapi/dist
+worker/dist
+client/dist
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,46 +1,23 @@
-import express, { Application } from 'express';
-import bodyParser from 'body-parser';
-import { Controller } from './controllers/controller.interface';
+import express, { Express } from 'express';
+import { IController } from './controllers/IController';
 
 export class App {
-  public app: Application;
+  public app: Express;
   public port: number;
-  public ready: Promise<any>;
 
-  constructor(controllers: Controller[], port: number) {
+  constructor(controllers: IController[], port: number) {
     this.app = express();
     this.port = port;
-
-    // Object readiness design pattern
-    this.ready = new Promise(async (resolve) => {
-      await this.listen();
-      this.initializeMiddleware();
-      this.initializeHomepage();
-      this.initializeControllers(controllers);
-      resolve(undefined);
-    });
-
-    this.app.set('views', './src/views');
-    this.app.set('view engine', 'ejs');
+    this.initializeControllers(controllers);
   }
 
-  private initializeMiddleware() {
-    this.app.use(bodyParser.json());
-  }
-
-  private initializeControllers(controllers: Controller[]) {
+  private initializeControllers(controllers: IController[]) {
     controllers.forEach((controller) => {
-      this.app.use('/', controller.router);
+      controller.initializeRoutes(this.app);
     });
   }
 
-  private initializeHomepage() {
-    this.app.get('/', (req, res) => {
-      res.render('index');
-    });
-  }
-
-  private async listen(): Promise<void> {
+  public listen(): void {
     this.app.listen(this.port, () => {
       console.log(`App listening on the port ${this.port}`);
     });

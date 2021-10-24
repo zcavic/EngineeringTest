@@ -1,6 +1,7 @@
 import { VideoProcessService } from './services/videoProcessService';
 
-const amqpUrl = 'amqp://rabbitmq';
+//const amqpUrl = 'amqp://rabbitmq';
+const amqpUrl = 'amqp://localhost';
 new VideoProcessService(amqpUrl, 'ScanService', 'Scan');
 new VideoProcessService(amqpUrl, 'EditService', 'Edit');
 new VideoProcessService(amqpUrl, 'PrepareService', 'Prepare');
