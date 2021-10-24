@@ -1,22 +1,20 @@
 import { IVideo } from '../model/video';
 import { Queue } from './queue';
-import { Request, Response, NextFunction } from 'express';
 
 export class Publisher extends Queue {
-  async publish(
-    request: Request,
-    response: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async publish(video: IVideo, queueName: string): Promise<void> {
     try {
-      console.log('Trying to sent into queue.');
-      const video: IVideo = { title: 'Pulp Fiction', status: 'Uploaded' };
-      await this.channels[0].sendToQueue(
-        'jobs',
+      console.log(`Trying to sent message into queue ${queueName}.`);
+      await this.channel().assertQueue(queueName);
+      await this.channel().sendToQueue(
+        queueName,
         Buffer.from(JSON.stringify(video))
       );
-      console.log(`Job sent successfully ${JSON.stringify(video)}`);
-      next();
+      console.log(
+        `Message ${JSON.stringify(
+          video
+        )} successfully sent into queue ${queueName}.`
+      );
     } catch (ex) {
       console.error(ex);
     }

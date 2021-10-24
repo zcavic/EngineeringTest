@@ -1,15 +1,13 @@
-import amqpConMgr, {
-  AmqpConnectionManager,
-  ChannelWrapper,
-} from 'amqp-connection-manager';
+import amqpConMgr, { ChannelWrapper } from 'amqp-connection-manager';
 
 export class Queue {
-  protected connections: AmqpConnectionManager[];
-  protected channels: ChannelWrapper[];
+  private channels: ChannelWrapper[];
 
   constructor() {
-    this.connections = [];
     this.channels = [];
+  }
+  channel(): ChannelWrapper {
+    return this.channels[0];
   }
   async connect(): Promise<void> {
     try {
@@ -18,10 +16,7 @@ export class Queue {
       //const connection = amqpConMgr.connect(['amqp://rabbitmq']);
       //const connection = amqpConMgr.connect([process.env.MESSAGE_QUEUE]);
       console.log('Trying to create chanel.');
-      const channel = await connection.createChannel();
-      console.log('Trying to assert queue.');
-      await channel.assertQueue('jobs');
-      this.connections.push(connection);
+      const channel = connection.createChannel();
       this.channels.push(channel);
       console.log('Connected.');
     } catch (ex) {
@@ -30,9 +25,6 @@ export class Queue {
   }
   async disconnect(): Promise<void> {
     try {
-      for (const connection of this.connections) {
-        await connection.close();
-      }
       for (const channel of this.channels) {
         await channel.close();
       }
