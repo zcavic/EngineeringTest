@@ -3,8 +3,8 @@ import * as Amqp from 'amqp-ts';
 export class VideoProcessService {
   private connection: Amqp.Connection;
   private queueName: string;
-  constructor(serviceName: string, queueName: string) {
-    this.connection = new Amqp.Connection('amqp://localhost');
+  constructor(amqpUrl: string, serviceName: string, queueName: string) {
+    this.connection = new Amqp.Connection(amqpUrl);
     this.queueName = queueName;
     const exchange = this.connection.declareExchange(serviceName);
     const resultQueue = this.connection.declareQueue(queueName);

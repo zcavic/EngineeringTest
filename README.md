@@ -17,7 +17,7 @@ $ docker-compose up
 - Running containers with scale (round-robin)
 
 ```bash
-$ docker-compose up --scale webapi=3
+$ docker-compose up --scale worker=3
 ```
 
 - Stopping containers

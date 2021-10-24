@@ -2,7 +2,8 @@ import { App } from './app';
 import { VideoController } from './controllers/videoController';
 import { VideoProcessService } from './services/videoProcessService';
 
-const videoProcessService = new VideoProcessService();
+const amqpUrl = 'amqp://rabbitmq';
+const videoProcessService = new VideoProcessService(amqpUrl);
 const videoController = new VideoController(videoProcessService);
 const controllers = [videoController];
 

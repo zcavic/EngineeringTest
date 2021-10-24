@@ -3,8 +3,8 @@ import { IVideo } from '../model/video';
 
 export class VideoProcessService {
   private connection: Amqp.Connection;
-  constructor() {
-    this.connection = new Amqp.Connection('amqp://localhost');
+  constructor(amqpUrl: string) {
+    this.connection = new Amqp.Connection(amqpUrl);
     const exchange = this.connection.declareExchange('WebApi');
     const resultQueue = this.connection.declareQueue('Result');
     resultQueue.bind(exchange);
@@ -44,7 +44,9 @@ export class VideoProcessService {
         break;
       }
       default: {
-        //statements;
+        console.log(
+          `[WARNING] The message: ${message.getContent()} isn't processed.`
+        );
         return;
       }
     }

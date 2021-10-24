@@ -19,6 +19,24 @@ services:
       - mongo
     command: npm run dev
 
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./worker:/usr/src/app
+    ports:
+      - '4000:4000'
+    networks:
+      - app-network
+    environment:
+      - MESSAGE_QUEUE=amqp://rabbitmq
+    links:
+      - rabbitmq
+      - mongo
+    command: npm run dev
+
   mongo:
     container_name: mongo
     image: mongo
