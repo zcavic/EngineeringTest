@@ -1,5 +1,7 @@
 import * as Amqp from 'amqp-ts';
-import { FileData } from '../model/video';
+import { UploadedFileData, FileData } from '../model/video';
+import { collections } from '../repository/FileDatabase';
+import { ObjectId } from 'mongodb';
 
 export class VideoProcessService {
   private connection: Amqp.Connection;
@@ -11,30 +13,27 @@ export class VideoProcessService {
     resultQueue.activateConsumer(this.messageHandler.bind(this));
   }
 
-  messageHandler(message: Amqp.Message): void {
+  async messageHandler(message: Amqp.Message): Promise<void> {
     console.log(`WebApi received message: ${message.getContent()}`);
-    const video = {
-      title: JSON.parse(message.getContent()).title,
-      status: JSON.parse(message.getContent()).status,
-    };
-    switch (video.status) {
+    const fileData = JSON.parse(message.getContent()) as UploadedFileData;
+    switch (fileData.processingStatus) {
       case 'ScanDone': {
         const exchange = this.connection.declareExchange('EditService');
-        const newMessage = new Amqp.Message(JSON.stringify(video));
+        const newMessage = new Amqp.Message(JSON.stringify(fileData));
         exchange.send(newMessage);
         console.log('WebApi sent message to EditService.');
         break;
       }
       case 'EditDone': {
         const exchange = this.connection.declareExchange('PrepareService');
-        const newMessage = new Amqp.Message(JSON.stringify(video));
+        const newMessage = new Amqp.Message(JSON.stringify(fileData));
         exchange.send(newMessage);
         console.log('WebApi sent message to PrepareService.');
         break;
       }
       case 'PrepareDone': {
         const exchange = this.connection.declareExchange('FinishService');
-        const newMessage = new Amqp.Message(JSON.stringify(video));
+        const newMessage = new Amqp.Message(JSON.stringify(fileData));
         exchange.send(newMessage);
         console.log('WebApi sent message to FinishService.');
         break;
@@ -45,15 +44,23 @@ export class VideoProcessService {
       }
       default: {
         console.log(
-          `[WARNING] The message: ${message.getContent()} isn't processed.`
+          `[WARNING] The message: ${message.getContent()} can't be processed.`
         );
         return;
       }
     }
+    await this.updateDatabase(fileData);
     message.ack();
   }
 
-  processVideo(fileData: FileData): void {
+  async updateDatabase(fileData: UploadedFileData): Promise<void> {
+    const query = { _id: new ObjectId(fileData.id) };
+    await collections.fileData?.updateOne(query, {
+      $set: fileData as FileData,
+    });
+  }
+
+  processVideo(fileData: UploadedFileData): void {
     const message = new Amqp.Message(JSON.stringify(fileData));
     const exchange = this.connection.declareExchange('ScanService');
     exchange.send(message);

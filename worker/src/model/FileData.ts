@@ -5,7 +5,3 @@ export interface FileData {
   fileExtension: string;
   processingStatus: string;
 }
-
-export interface UploadedFileData extends FileData {
-  id: string;
-}

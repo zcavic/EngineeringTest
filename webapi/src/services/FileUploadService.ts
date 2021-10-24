@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import fs from 'fs';
-import { FileData } from '../model/video';
+import { FileData, UploadedFileData } from '../model/video';
 import { collections } from '../repository/FileDatabase';
 
 class FileUploadService {
@@ -28,7 +28,16 @@ class FileUploadService {
 
     if (!result) throw new Error('Failed to upload database.');
 
-    return newFile;
+    const uploadedFile: UploadedFileData = {
+      id: result.insertedId.toString(),
+      originalName: newFile.originalName,
+      uniqueFileName: newFile.uniqueFileName,
+      fileSize: newFile.fileSize,
+      fileExtension: newFile.fileExtension,
+      processingStatus: newFile.processingStatus,
+    };
+
+    return uploadedFile;
   }
 
   private getFileExtension(): string {
