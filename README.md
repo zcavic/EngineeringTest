@@ -53,20 +53,20 @@ Currently the application support only upload video action. For testing other AP
 
 # Docker
 
-- Building an image
+Building an image
 
 ```bash
-$ docker-compose build
+docker-compose build
 ```
 
-- Running containers
+Running containers
 
 ```bash
-$ docker-compose up
+docker-compose up
 ```
 
-- Stopping containers
+Stopping containers
 
 ```bash
-$ docker-compose down
+docker-compose down
 ```
