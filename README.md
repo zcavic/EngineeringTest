@@ -1,35 +1,55 @@
-# EngineeringTest
+# Architecture 
 
-# Getting Started with Create React App
+System design
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-1.drawio.png?raw=true)
 
-## Available Scripts
+Architecture 
 
-In the project directory, you can run:
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-2.drawio.png?raw=true)
 
-### `npm start`
+Component diagram
 
-Runs the app in the development mode.\
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-3.drawio.png?raw=true)
+
+Sequential diagram of uploading video process
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-4.drawio.png?raw=true)
+
+Video processor state machine
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-5.drawio.png?raw=true)
+
+# REST API
+
+This API is for the video uploading. The file should be named 'file'. If the upload is successful, the video will be processed by the Scan, Edit, Prepare, and Finish service.
+
+```bash
+POST /start
+```
+
+This API returns list of all uploaded files with their id’s
+
+```bash
+GET /files
+```
+
+This API returns the information (JSON object) about the particular file.
+
+```bash
+GET /files/:fileId/status
+```
+
+This API returns the information (JSON object) about the particular file.
+
+# How to run application
+
+Install docker and runn command from Docker paragraph.
+
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+P.S.
+Currently the application support only upload video action. For testing other API use postman.
 
 # Docker
 
@@ -43,12 +63,6 @@ $ docker-compose build
 
 ```bash
 $ docker-compose up
-```
-
-- Running containers with scale (round-robin)
-
-```bash
-$ docker-compose up --scale worker=3
 ```
 
 - Stopping containers
