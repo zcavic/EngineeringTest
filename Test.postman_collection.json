@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "1db659c3-ff76-47df-a829-c095aad7d14c",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/files/6175cbac83d819d60e89761e/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"files",
+						"6175cbac83d819d60e89761e",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get files",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/files",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Cavic/Pictures/viber_image_2021-03-31_19-20-31.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:5000/start?file",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"start"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
