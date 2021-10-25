@@ -20,7 +20,7 @@ services:
     links:
       - rabbitmq
       - mongo
-    command: npm run dev
+    command: bash -c "npm i && npm run dev"
 
   client:
     build:
@@ -37,7 +37,7 @@ services:
       - WEB_API=http://webapi:5000
     links:
       - webapi
-    command: npm run start
+    command: bash -c "npm i && npm run start"
 
   worker:
     build:
@@ -55,7 +55,7 @@ services:
     links:
       - rabbitmq
       - mongo
-    command: npm run dev
+    command: bash -c "npm i && npm run dev"
 
   mongo:
     container_name: mongo
