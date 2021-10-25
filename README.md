@@ -1,5 +1,27 @@
 # EngineeringTest
 
+# Architecture 
+
+System design
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-1.drawio.png?raw=true)
+
+Architecture 
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-2.drawio.png?raw=true)
+
+Component diagram
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-3.drawio.png?raw=true)
+
+Sequential diagram of uploading video process
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-4.drawio.png?raw=true)
+
+Video processor state machine
+
+![alt text](https://github.com/zcavic/EngineeringTest/blob/main/Documentation/WD_SystemDesign-Page-5.drawio.png?raw=true)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
