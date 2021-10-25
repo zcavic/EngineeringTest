@@ -1,7 +1,7 @@
 import express from 'express';
 import { Router } from 'express-serve-static-core';
 import IController from './IController';
-import VideoProcessService from '../services/videoProcessService';
+import VideoProcessService from '../services/VideoProcessService';
 
 class VideoProcessingController implements IController {
   public router = express.Router();
@@ -15,7 +15,7 @@ class VideoProcessingController implements IController {
     router.post('/start', this.processVideo);
   }
 
-  processVideo = (request: express.Request, response: express.Response, next: express.NextFunction): void => {
+  processVideo = (request: express.Request, response: express.Response): void => {
     console.log('Try to upload video.');
     const fileData = response.locals.fileData;
     this.videoProcessService.processVideo(fileData);

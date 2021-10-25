@@ -4,7 +4,7 @@ import multer from 'multer';
 import App from './app';
 import { connectToDatabase } from './repository/FileDatabase';
 import FileRepo from './repository/FileRepo';
-import VideoProcessService from './services/videoProcessService';
+import VideoProcessService from './services/VideoProcessService';
 import VideoUploadService from './services/VideoUploadService';
 import { initializeFileSizeValidator, initializeFileTypeValidator } from './services/validators/fileValidator';
 import VideoDataController from './controllers/VideoDataController';

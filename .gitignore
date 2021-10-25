@@ -8,6 +8,9 @@ node_modules
 webapi/coverage
 worker/coverage
 client/coverage
+webapi/public
+worker/coverage
+client/coverage
 
 # production
 webapi/dist

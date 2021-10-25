@@ -1,8 +1,11 @@
+import * as dotenv from 'dotenv';
 import { VideoProcessService } from './services/videoProcessService';
 
-//const amqpUrl = 'amqp://rabbitmq';
-const amqpUrl = 'amqp://localhost';
-new VideoProcessService(amqpUrl, 'ScanService', 'Scan');
-new VideoProcessService(amqpUrl, 'EditService', 'Edit');
-new VideoProcessService(amqpUrl, 'PrepareService', 'Prepare');
-new VideoProcessService(amqpUrl, 'FinishService', 'Finish');
+// use environment variables
+dotenv.config();
+const messageQueue = process.env.MESSAGE_QUEUE ? process.env.MESSAGE_QUEUE : '';
+
+new VideoProcessService(messageQueue, 'ScanService', 'Scan');
+new VideoProcessService(messageQueue, 'EditService', 'Edit');
+new VideoProcessService(messageQueue, 'PrepareService', 'Prepare');
+new VideoProcessService(messageQueue, 'FinishService', 'Finish');

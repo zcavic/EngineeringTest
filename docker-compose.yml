@@ -14,10 +14,30 @@ services:
       - app-network
     environment:
       - MESSAGE_QUEUE=amqp://rabbitmq
+      - DB_NAME=fileDB
+      - DB_CONN_STRING=mongodb://mongo:27017
+      - FILE_DATA_COLLECTION_NAME=video
     links:
       - rabbitmq
       - mongo
     command: npm run dev
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    working_dir: /usr/src/app
+    volumes:
+      - ./client:/usr/src/app
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+    environment:
+      - WEB_API=http://webapi:5000
+    links:
+      - webapi
+    command: npm run start
 
   worker:
     build:
