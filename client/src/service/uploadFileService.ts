@@ -3,7 +3,7 @@ interface UploadFileResponse {
   message: string;
 }
 
-class FileService {
+class UploadFileService {
   private file: File;
 
   constructor(file: File) {
@@ -48,4 +48,4 @@ class FileService {
   }
 }
 
-export default FileService;
+export default UploadFileService;

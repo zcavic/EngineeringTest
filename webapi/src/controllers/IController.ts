@@ -1,5 +1,7 @@
 import { Router } from 'express-serve-static-core';
 
-export interface IController {
+interface IController {
   initializeRoutes(router: Router);
 }
+
+export default IController;

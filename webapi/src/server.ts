@@ -1,30 +1,37 @@
-import { App } from './app';
-import { VideoProcessingController } from './controllers/VideoProcessingController';
-import { VideoProcessService } from './services/videoProcessService';
-import { VideoUploadController } from './controllers/VideoUploadController';
-import {
-  FileSizeValidator,
-  FileTypeValidator,
-} from './validators/fileValidator';
+import * as dotenv from 'dotenv';
+import * as Amqp from 'amqp-ts';
+import multer from 'multer';
+import App from './app';
 import { connectToDatabase } from './repository/FileDatabase';
-import {FileRepo} from './repository/FileRepo'
+import FileRepo from './repository/FileRepo';
+import VideoProcessService from './services/videoProcessService';
+import VideoUploadService from './services/VideoUploadService';
+import { initializeFileSizeValidator, initializeFileTypeValidator } from './services/validators/fileValidator';
+import VideoDataController from './controllers/VideoDataController';
+import VideoUploadController from './controllers/VideoUploadController';
+import VideoProcessingController from './controllers/VideoProcessingController';
+
+// use environment variables
+dotenv.config();
 
 //connect to database
 connectToDatabase();
 const fileRepo = new FileRepo();
 
-// VideoProcessService
-//const amqpUrl = 'amqp://rabbitmq';
-const amqpUrl = 'amqp://localhost';
-const videoProcessService = new VideoProcessService(amqpUrl);
-const videoController = new VideoProcessingController(videoProcessService, fileRepo);
+// initialize rabbitmq
+const connection = new Amqp.Connection(process.env.MESSAGE_QUEUE);
 
-// VideoUploadController
-const fileSizeValidator = new FileSizeValidator(20971520); // 20MB
-const fileTypeValidator = new FileTypeValidator(new Array('mp4'));
-const fileUploadController = new VideoUploadController();
+// Initialize services
+initializeFileSizeValidator(20971520); // 20MB
+initializeFileTypeValidator(['.mp4', '.jpg']);
+const videoProcessService = new VideoProcessService(fileRepo, connection);
+const fileUploadService = new VideoUploadService(fileRepo);
 
-const controllers = [fileUploadController, videoController];
+// Initialize controllers
+const videoDataController = new VideoDataController(fileRepo);
+const videoController = new VideoProcessingController(videoProcessService);
+const fileUploadController = new VideoUploadController(fileUploadService, multer({ dest: './public/data/uploads/' }));
+const controllers = [videoDataController, fileUploadController, videoController];
 
 const app = new App(controllers, 5000);
 app.listen();

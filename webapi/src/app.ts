@@ -1,7 +1,7 @@
 import express, { Express } from 'express';
-import { IController } from './controllers/IController';
+import IController from './controllers/IController';
 
-export class App {
+class App {
   public app: Express;
   public port: number;
 
@@ -23,3 +23,5 @@ export class App {
     });
   }
 }
+
+export default App;

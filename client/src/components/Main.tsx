@@ -1,17 +1,13 @@
-import { ChakraProvider } from '@chakra-ui/react' 
+import { ChakraProvider } from '@chakra-ui/react';
 
-import FileUpload from './FileUpload'
-import UploadedFiles from './UploadedFiles'
-import FileDetails from './FileDetails'
+import FileUpload from './FileUpload';
 
 function Main() {
-    return (
-        <ChakraProvider>
-            <FileUpload />
-            <UploadedFiles />
-            <FileDetails />            
-        </ChakraProvider>
-    )
+  return (
+    <ChakraProvider>
+      <FileUpload />
+    </ChakraProvider>
+  );
 }
 
-export default Main
+export default Main;

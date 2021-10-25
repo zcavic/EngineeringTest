@@ -1,4 +1,4 @@
-export interface FileData {
+interface FileData {
   originalName: string;
   uniqueFileName: string;
   fileSize: number;
@@ -6,6 +6,8 @@ export interface FileData {
   processingStatus: string;
 }
 
-export interface UploadedFileData extends FileData {
+interface UploadedFileData extends FileData {
   id: string;
 }
+
+export { FileData, UploadedFileData };
